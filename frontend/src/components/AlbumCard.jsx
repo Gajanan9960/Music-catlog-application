@@ -37,19 +37,25 @@ export default function AlbumCard({ album, onSave, onRemove, savedList, inLibrar
   };
 
   return (
-    <div className="album-card">
-      <img src={album.artworkUrl?.replace('100x100bb', '300x300bb')} alt="Artwork" />
-      <div className="album-title" title={album.title}>{album.title}</div>
-      <div className="album-artist">{album.artistName}</div>
+    <div className="album-card fade-up">
+      {album.artworkUrl ? (
+        <img src={album.artworkUrl.replace('100x100bb', '300x300bb')} alt="Artwork" />
+      ) : (
+        <div style={{ width: '100%', height: '300px', backgroundColor: '#e5e5ea', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>
+          No Image
+        </div>
+      )}
+      <div className="album-title" title={album.title} style={{ fontSize: '1.05rem', color: 'var(--text-primary)' }}>{album.title}</div>
+      <div className="album-artist" style={{ fontWeight: 500, color: 'var(--text-primary)' }}>{album.artistName}</div>
       <div className="album-meta">
-        {album.genre} • {album.releaseDate?.substring(0,4) || 'Unknown'} • {album.trackCount} tracks
+        {album.genre} • {album.releaseDate?.substring(0,4) || 'Unknown'}
       </div>
       
       {!inLibrary && (
         <button 
           onClick={handleSave} 
           disabled={isSaved || saving}
-          style={{ marginTop: 'auto' }}
+          style={{ marginTop: 'auto', width: '100%', borderRadius: '20px', padding: '10px 0' }}
         >
           {isSaved ? 'Saved ✓' : 'Save'}
         </button>
@@ -79,7 +85,7 @@ export default function AlbumCard({ album, onSave, onRemove, savedList, inLibrar
           />
           <button 
             onClick={() => onRemove(album.id)}
-            style={{ background: 'transparent', color: 'var(--text-secondary)', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}
+            style={{ background: 'transparent', color: 'var(--text-secondary)', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px', borderRadius: '20px', padding: '8px 0' }}
           >
             <Trash2 size={16} /> Remove
           </button>

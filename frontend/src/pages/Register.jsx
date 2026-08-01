@@ -13,6 +13,7 @@ export default function Register() {
     try {
       const res = await api.post('/auth/register', { email, password });
       localStorage.setItem('token', res.data.token);
+      localStorage.setItem('email', email);
       navigate('/search');
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed');

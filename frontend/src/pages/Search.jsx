@@ -37,12 +37,12 @@ export default function Search() {
 
   return (
     <div className="fade-up">
-      <div style={{ textAlign: 'center', marginTop: '20px', marginBottom: '30px' }}>
-        <h1 style={{ fontSize: '3rem', fontWeight: 800, letterSpacing: '-0.04em', color: 'var(--text-primary)' }}>Build Your Music Library</h1>
-        <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', marginTop: '8px' }}>Find albums you love, save them to your collection, and explore insights about your taste.</p>
+      <div style={{ textAlign: 'center', marginTop: '40px', marginBottom: '28px' }}>
+        <h1 style={{ fontSize: '52px', fontWeight: 800, letterSpacing: '-0.04em', color: 'var(--text-primary)', marginBottom: '20px' }}>Discover Albums</h1>
+        <p style={{ fontSize: '18px', color: 'var(--text-secondary)' }}>Search the iTunes catalog and curate your personal library.</p>
       </div>
 
-      <div style={{ position: 'relative', margin: '0 auto 60px auto', maxWidth: '680px' }}>
+      <div style={{ position: 'relative', margin: '0 auto 40px auto', maxWidth: '680px' }}>
         <SearchIcon style={{ position: 'absolute', left: '24px', top: '22px', color: 'var(--text-secondary)' }} size={24} />
         <input 
           type="text" 
@@ -56,10 +56,10 @@ export default function Search() {
       </div>
 
       {!query && results.length === 0 && (
-        <div className="fade-up" style={{ textAlign: 'center', marginTop: '60px', color: 'var(--text-secondary)' }}>
-          <SearchIcon size={48} style={{ marginBottom: '15px', opacity: 0.5, color: 'var(--accent-color)' }} />
-          <h2 style={{ color: 'var(--text-primary)' }}>Search for an album to get started</h2>
-          <p style={{ marginTop: '10px' }}>Browse millions of albums from the iTunes catalog and save your favorites.</p>
+        <div className="fade-up" style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
+          <SearchIcon size={32} style={{ marginBottom: '12px', opacity: 0.5, color: 'var(--accent-color)' }} />
+          <h2 style={{ fontSize: '30px', color: 'var(--text-primary)', marginBottom: '8px' }}>Start building your music library</h2>
+          <p style={{ fontSize: '16px', color: 'var(--text-secondary)', opacity: 0.8 }}>Browse millions of albums from the iTunes catalog and save your favorites.</p>
         </div>
       )}
 
