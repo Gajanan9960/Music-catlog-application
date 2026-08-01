@@ -32,9 +32,17 @@ public class LibraryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AlbumDTO>> getLibrary() {
+    public ResponseEntity<?> getLibrary(
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size) {
         User user = getCurrentUser();
-        return ResponseEntity.ok(libraryService.getUserLibrary(user.getId()));
+        if (page != null && size != null) {
+            org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size);
+            return ResponseEntity.ok(libraryService.getUserLibraryPaginated(user.getId(), pageable));
+        } else {
+            // fallback to list for backward compatibility with Analytics etc.
+            return ResponseEntity.ok(libraryService.getUserLibrary(user.getId()));
+        }
     }
 
     @PostMapping

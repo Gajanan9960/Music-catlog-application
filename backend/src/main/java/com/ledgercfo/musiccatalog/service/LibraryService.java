@@ -5,6 +5,8 @@ import com.ledgercfo.musiccatalog.dto.SaveAlbumRequest;
 import com.ledgercfo.musiccatalog.model.Album;
 import com.ledgercfo.musiccatalog.model.User;
 import com.ledgercfo.musiccatalog.repository.AlbumRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -21,6 +23,10 @@ public class LibraryService {
 
     public List<AlbumDTO> getUserLibrary(UUID userId) {
         return albumRepository.findByUserId(userId).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    public Page<AlbumDTO> getUserLibraryPaginated(UUID userId, Pageable pageable) {
+        return albumRepository.findByUserId(userId, pageable).map(this::toDTO);
     }
 
     public AlbumDTO saveAlbum(User user, SaveAlbumRequest request) {

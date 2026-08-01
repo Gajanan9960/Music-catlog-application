@@ -21,6 +21,7 @@ public class ITunesService {
         this.webClient = WebClient.builder().baseUrl("https://itunes.apple.com").build();
     }
 
+    @org.springframework.cache.annotation.Cacheable("itunesSearch")
     public Mono<List<AlbumDTO>> searchAlbums(String query) {
         return this.webClient.get()
                 .uri(uriBuilder -> uriBuilder
@@ -30,8 +31,14 @@ public class ITunesService {
                         .queryParam("limit", 25)
                         .build())
                 .retrieve()
-                .bodyToMono(Map.class)
-                .map(response -> {
+                .bodyToMono(String.class)
+                .map(responseStr -> {
+                    Map<String, Object> response;
+                    try {
+                        response = new com.fasterxml.jackson.databind.ObjectMapper().readValue(responseStr, Map.class);
+                    } catch (Exception e) {
+                        throw new RuntimeException("Failed to parse iTunes response", e);
+                    }
                     List<Map<String, Object>> results = (List<Map<String, Object>>) response.get("results");
                     List<AlbumDTO> albums = new ArrayList<>();
                     if (results != null) {
@@ -65,6 +72,7 @@ public class ITunesService {
                         }
                     }
                     return albums;
-                });
+                })
+                .cache(); // Cache the Mono result so subscribers don't trigger the HTTP call again
     }
 }
