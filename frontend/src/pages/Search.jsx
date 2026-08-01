@@ -37,14 +37,16 @@ export default function Search() {
 
   return (
     <div>
-      <div style={{ position: 'relative', marginBottom: '30px' }}>
-        <SearchIcon style={{ position: 'absolute', left: '15px', top: '12px', color: 'var(--text-secondary)' }} size={20} />
+      <div style={{ position: 'relative', margin: '40px auto 60px auto', maxWidth: '600px' }}>
+        <SearchIcon style={{ position: 'absolute', left: '20px', top: '18px', color: 'var(--text-secondary)' }} size={24} />
         <input 
           type="text" 
-          placeholder="Search iTunes for albums..." 
+          placeholder="Search albums, artists..." 
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          style={{ width: '100%', padding: '12px 12px 12px 45px', fontSize: '1rem', borderRadius: '12px' }}
+          style={{ width: '100%', padding: '18px 24px 18px 56px', fontSize: '1.25rem', borderRadius: '32px', background: '#FFFFFF', border: 'none', boxShadow: 'var(--ambient-shadow)', transition: 'box-shadow 0.3s' }}
+          onFocus={(e) => e.target.style.boxShadow = 'var(--ambient-shadow-hover)'}
+          onBlur={(e) => e.target.style.boxShadow = 'var(--ambient-shadow)'}
         />
       </div>
 
