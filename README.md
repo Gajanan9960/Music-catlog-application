@@ -87,7 +87,11 @@ The frontend will be available at `http://localhost:5173`.
 
 ## ☁️ Deployment
 
-### Using Docker Compose (Recommended)
+### Live Demo
+* **Frontend (Vercel)**: [https://music-catlog-application.vercel.app](https://music-catlog-application.vercel.app)
+* **Backend API (Render)**: [https://music-catlog-application.onrender.com](https://music-catlog-application.onrender.com)
+
+### Using Docker Compose (VPS / Local)
 The easiest way to deploy the backend and the database together on any VPS (like DigitalOcean, AWS EC2, or Hetzner) is using the included `docker-compose.yml` file.
 
 1. Ensure Docker and Docker Compose are installed on your server.
@@ -101,22 +105,21 @@ The easiest way to deploy the backend and the database together on any VPS (like
    ```bash
    docker-compose up -d --build
    ```
-This will automatically spin up the PostgreSQL database, wait for it to be healthy, and then build and start the Spring Boot backend on port 8080.
 
-### Backend (Standalone)
-The backend includes a `Dockerfile` utilizing a multi-stage build. You can easily deploy it to services like Render, Railway, or Fly.io by connecting your repository and configuring the following environment variables:
+### Backend (Render / PaaS Deployment)
+The backend includes a `Dockerfile` utilizing a multi-stage build. You can easily deploy it to services like Render, Railway, or Fly.io by configuring the following environment variables:
 * `DB_URL` (e.g., `jdbc:postgresql://<host>:5432/music_catalog`)
 * `DB_USERNAME`
 * `DB_PASSWORD`
 * `JWT_SECRET` (A strong, random 256-bit key)
-* `GEMINI_API_KEY`
-* `ALLOWED_ORIGINS` (e.g., `https://your-frontend-domain.vercel.app`)
+* `GEMINI_API_KEY` (Required for AI Insights)
+*(Note: Strict CORS is disabled by default to simplify cloud deployments).*
 
-### Frontend
-The frontend is optimized for deployment on Vercel. 
+### Frontend (Vercel)
+The frontend is fully optimized for Vercel deployment.
 1. Connect your repository to Vercel.
-2. Ensure the framework preset is set to **Vite**.
-3. Add the `VITE_API_URL` environment variable pointing to your deployed backend URL.
+2. Ensure the framework preset is set to **Vite** and the Root Directory is set to `frontend`.
+3. The application will automatically fallback to the production Render URL defined in `axiosConfig.js` if `VITE_API_URL` is not set!
 4. The included `vercel.json` ensures that React Router handles direct URL hits without throwing 404 errors.
 
 ## 🔒 Security Highlights
