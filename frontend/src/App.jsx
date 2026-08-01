@@ -22,7 +22,9 @@ function App() {
           <Route path="/search" element={<PrivateRoute><Search /></PrivateRoute>} />
           <Route path="/library" element={<PrivateRoute><Library /></PrivateRoute>} />
           <Route path="/analytics" element={<PrivateRoute><Analytics /></PrivateRoute>} />
-          <Route path="/" element={<Navigate to="/search" />} />
+          <Route path="/" element={
+            localStorage.getItem('token') ? <Navigate to="/search" /> : <Navigate to="/login" />
+          } />
         </Routes>
       </div>
       <footer style={{ textAlign: 'center', padding: '20px 24px', color: 'var(--text-secondary)', opacity: 0.6, fontSize: '0.85rem', marginTop: '120px' }}>
