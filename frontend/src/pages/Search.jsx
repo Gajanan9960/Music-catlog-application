@@ -36,29 +36,35 @@ export default function Search() {
   };
 
   return (
-    <div>
-      <div style={{ position: 'relative', margin: '40px auto 60px auto', maxWidth: '600px' }}>
-        <SearchIcon style={{ position: 'absolute', left: '20px', top: '18px', color: 'var(--text-secondary)' }} size={24} />
+    <div className="fade-up">
+      <div style={{ textAlign: 'center', marginTop: '20px', marginBottom: '30px' }}>
+        <h1 style={{ fontSize: '3rem', fontWeight: 800, letterSpacing: '-0.04em', color: 'var(--text-primary)' }}>Build Your Music Library</h1>
+        <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', marginTop: '8px' }}>Find albums you love, save them to your collection, and explore insights about your taste.</p>
+      </div>
+
+      <div style={{ position: 'relative', margin: '0 auto 60px auto', maxWidth: '680px' }}>
+        <SearchIcon style={{ position: 'absolute', left: '24px', top: '22px', color: 'var(--text-secondary)' }} size={24} />
         <input 
           type="text" 
           placeholder="Search albums, artists..." 
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          style={{ width: '100%', padding: '18px 24px 18px 56px', fontSize: '1.25rem', borderRadius: '32px', background: '#FFFFFF', border: 'none', boxShadow: 'var(--ambient-shadow)', transition: 'box-shadow 0.3s' }}
+          style={{ width: '100%', padding: '22px 24px 22px 64px', fontSize: '1.25rem', borderRadius: '40px', background: '#FFFFFF', border: '1px solid var(--border-color)', boxShadow: 'var(--ambient-shadow-strong)', transition: 'all 0.3s' }}
           onFocus={(e) => e.target.style.boxShadow = 'var(--ambient-shadow-hover)'}
-          onBlur={(e) => e.target.style.boxShadow = 'var(--ambient-shadow)'}
+          onBlur={(e) => e.target.style.boxShadow = 'var(--ambient-shadow-strong)'}
         />
       </div>
 
       {!query && results.length === 0 && (
-        <div style={{ textAlign: 'center', marginTop: '100px', color: 'var(--text-secondary)' }}>
-          <SearchIcon size={48} style={{ marginBottom: '15px', opacity: 0.5 }} />
-          <h2>Search for an album to get started</h2>
+        <div className="fade-up" style={{ textAlign: 'center', marginTop: '60px', color: 'var(--text-secondary)' }}>
+          <SearchIcon size={48} style={{ marginBottom: '15px', opacity: 0.5, color: 'var(--accent-color)' }} />
+          <h2 style={{ color: 'var(--text-primary)' }}>Search for an album to get started</h2>
+          <p style={{ marginTop: '10px' }}>Browse millions of albums from the iTunes catalog and save your favorites.</p>
         </div>
       )}
 
       {loading && (
-        <div className="album-grid">
+        <div className="album-grid fade-up">
           {[1,2,3,4,5,6,7,8].map(i => (
             <div key={i} className="album-card" style={{ height: '300px', background: '#f0f0f0', animation: 'pulse 1.5s infinite' }} />
           ))}
