@@ -36,7 +36,7 @@ public class LLMInsightService {
         ));
 
         return webClient.post()
-                .uri("/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey)
+                .uri("/v1beta/models/gemini-flash-latest:generateContent?key=" + apiKey)
                 .bodyValue(requestBody)
                 .retrieve()
                 .bodyToMono(String.class)
@@ -55,7 +55,8 @@ public class LLMInsightService {
                         return "Failed to parse AI response.";
                     }
                     return "Could not generate insight.";
-                });
+                })
+                .onErrorResume(e -> Mono.just("Failed to generate insight due to an API error. Please try again later."));
     }
 
     private String generateDynamicMockInsight(Map<String, Object> analytics) {
