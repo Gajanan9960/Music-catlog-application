@@ -1,7 +1,9 @@
 version: '3.8'
+
 services:
   db:
-    image: postgres:15
+    image: postgres:15-alpine
+    container_name: pure-sonic-db
     environment:
       POSTGRES_USER: catalog_user
       POSTGRES_PASSWORD: catalog_password
@@ -10,6 +12,29 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U catalog_user -d music_catalog"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: pure-sonic-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_URL=jdbc:postgresql://db:5432/music_catalog
+      - DB_USERNAME=catalog_user
+      - DB_PASSWORD=catalog_password
+      - JWT_SECRET=${JWT_SECRET:-your_super_secret_jwt_key_for_production}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:5173,http://localhost:5174,http://localhost:80}
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   postgres_data:

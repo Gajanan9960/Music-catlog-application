@@ -87,7 +87,23 @@ The frontend will be available at `http://localhost:5173`.
 
 ## ☁️ Deployment
 
-### Backend
+### Using Docker Compose (Recommended)
+The easiest way to deploy the backend and the database together on any VPS (like DigitalOcean, AWS EC2, or Hetzner) is using the included `docker-compose.yml` file.
+
+1. Ensure Docker and Docker Compose are installed on your server.
+2. Clone the repository and navigate to the project root.
+3. Export your Gemini API key (and optionally a strong JWT secret):
+   ```bash
+   export GEMINI_API_KEY="your_api_key_here"
+   export JWT_SECRET="your_strong_random_secret_here"
+   ```
+4. Start the services:
+   ```bash
+   docker-compose up -d --build
+   ```
+This will automatically spin up the PostgreSQL database, wait for it to be healthy, and then build and start the Spring Boot backend on port 8080.
+
+### Backend (Standalone)
 The backend includes a `Dockerfile` utilizing a multi-stage build. You can easily deploy it to services like Render, Railway, or Fly.io by connecting your repository and configuring the following environment variables:
 * `DB_URL` (e.g., `jdbc:postgresql://<host>:5432/music_catalog`)
 * `DB_USERNAME`
