@@ -9,7 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
+
 
 import java.util.Map;
 
@@ -33,10 +33,11 @@ public class InsightController {
     }
 
     @GetMapping
-    public Mono<InsightResponseDTO> getInsight() {
+    public InsightResponseDTO getInsight() {
         User user = getCurrentUser();
         Map<String, Object> analytics = libraryService.getAnalytics(user.getId());
         return llmInsightService.generateInsight(analytics)
-                .map(InsightResponseDTO::new);
+                .map(InsightResponseDTO::new)
+                .block();
     }
 }

@@ -23,8 +23,8 @@ public class LLMInsightService {
     }
 
     public Mono<String> generateInsight(Map<String, Object> analytics) {
-        if ("mock-key-if-not-provided".equals(apiKey)) {
-            return Mono.just("Your library is a vibrant mix of genres, reflecting a diverse and eclectic taste. You seem to favor late 2000s rock and recent pop hits.");
+        if ("mock-key-if-not-provided".equals(apiKey) || apiKey == null || apiKey.isEmpty()) {
+            return Mono.fromCallable(() -> generateDynamicMockInsight(analytics));
         }
 
         String prompt = "Based on the following aggregated stats of a user's music album library, give one short, insightful, and natural-language paragraph summarizing their music taste and trends: " + 
@@ -56,5 +56,34 @@ public class LLMInsightService {
                     }
                     return "Could not generate insight.";
                 });
+    }
+
+    private String generateDynamicMockInsight(Map<String, Object> analytics) {
+        try {
+            @SuppressWarnings("unchecked")
+            Map<String, Long> genreCounts = (Map<String, Long>) analytics.getOrDefault("genreCounts", new HashMap<>());
+            @SuppressWarnings("unchecked")
+            Map<String, Long> releaseYearCounts = (Map<String, Long>) analytics.getOrDefault("releaseYearCounts", new HashMap<>());
+            @SuppressWarnings("unchecked")
+            Map<String, Long> topArtists = (Map<String, Long>) analytics.getOrDefault("topArtists", new HashMap<>());
+
+            String topGenre = genreCounts.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey).orElse("various genres");
+
+            String topYear = releaseYearCounts.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey).orElse("different eras");
+                
+            String topArtist = topArtists.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey).orElse("many different artists");
+
+            return String.format("Your library shows a strong affinity for %s music, particularly from %s. " +
+                "You seem to be a dedicated fan of %s, with their work standing out in your collection.", 
+                topGenre, topYear, topArtist);
+        } catch (Exception e) {
+            return "Your library is a vibrant mix of genres, reflecting a diverse and eclectic taste.";
+        }
     }
 }

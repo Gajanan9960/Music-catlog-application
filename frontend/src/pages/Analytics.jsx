@@ -95,6 +95,7 @@ export default function Analytics() {
               </LineChart>
             </ResponsiveContainer>
           </div>
+          <p style={{ textAlign: 'center', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>You save albums mostly from {lineData.sort((a,b)=>b.value-a.value)[0]?.name || 'various years'}</p>
         </div>
 
         <div className="chart-panel">
@@ -110,6 +111,7 @@ export default function Analytics() {
               </BarChart>
             </ResponsiveContainer>
           </div>
+          <p style={{ textAlign: 'center', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>You prefer albums with {histData.sort((a,b)=>b.value-a.value)[0]?.name || '?'} tracks</p>
         </div>
 
         <div className="chart-panel">
@@ -125,6 +127,7 @@ export default function Analytics() {
               </BarChart>
             </ResponsiveContainer>
           </div>
+          <p style={{ textAlign: 'center', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Your top artist is {barData.sort((a,b)=>b.value-a.value)[0]?.name || 'Unknown'}</p>
         </div>
       </div>
     </div>
